@@ -1,77 +1,99 @@
-<!-- This should be the location of the title of the repository, normally the short name -->
-# repo-template
+# NVIDIA Driver Install Scripts for IBM VPC
 
-<!-- Build Status, is a great thing to have at the top of your repository, it shows that you take your CI/CD as first class citizens -->
-<!-- [![Build Status](https://travis-ci.org/jjasghar/ibm-cloud-cli.svg?branch=master)](https://travis-ci.org/jjasghar/ibm-cloud-cli) -->
+[![Build Status](https://v3.travis.ibm.com/workload-eng-services/nvidia-cuda-driver.svg?token=PSs96f7r2zBFnDeNZoSk&branch=main)](https://v3.travis.ibm.com/workload-eng-services/nvidia-cuda-driver)
 
-<!-- Not always needed, but a scope helps the user understand in a short sentance like below, why this repo exists -->
-## Scope
+[!WARNING]
+This project is in beta. Do not use for production. This warning will be removed when it is safe to
+use in your workflows.
 
-The purpose of this project is to provide a template for new open source repositories.
+These scripts provide automated installation for NVIDIA&reg; drivers using NVIDIA precompiled drivers.
+The main install script `install.sh` will discover the distribution, then download and run the
+corresponding installer found in the `vpc` directory. Driver versions are matched to the the kernel
+version for IBM VPC images and tested to ensure compatibility. By default the latest version of the
+[NVIDIA&reg; CUDA&reg; Toolkit](https://developer.nvidia.com/cuda-toolkit) for the driver is also installed.
 
-<!-- A more detailed Usage or detailed explaination of the repository here -->
-## Usage
+## Supported Distributions
 
-This repository contains some example best practices for open source repositories:
+Because NVIDIA does not supply precompiled drivers for all distributions, not all of the offered
+images by IBM VPC are supported. The current supported distributions are:
 
-* [LICENSE](LICENSE)
-* [README.md](README.md)
-* [CONTRIBUTING.md](CONTRIBUTING.md)
-* [MAINTAINERS.md](MAINTAINERS.md)
-<!-- A Changelog allows you to track major changes and things that happen, https://github.com/github-changelog-generator/github-changelog-generator can help automate the process -->
-* [CHANGELOG.md](CHANGELOG.md)
+- RHEL
+- Rocky
+- Ubuntu
+- Debian
 
-> These are optional
+See the table in [Supported IBM Images and CUDA Version](#supported-ibm-images-and-cuda-version) for
+a complete list of images supported by this version of the installers. Note, each release of this
+repository will support the latest, at time of release, image versions for VPC. It is recommended in
+your image building pipeline to tag the version matching with the VPC image version you are
+installing drivers for.
 
-<!-- The following are OPTIONAL, but strongly suggested to have in your repository. -->
-* [dco.yml](.github/dco.yml) - This enables DCO bot for you, please take a look https://github.com/probot/dco for more details.
-* [travis.yml](.travis.yml) - This is a example `.travis.yml`, please take a look https://docs.travis-ci.com/user/tutorial/ for more details.
+## Quick Install
 
-These may be copied into a new or existing project to make it easier for developers not on a project team to collaborate.
+To get started run this command on your instance, or add it to your cloud-init.
 
-<!-- A notes section is useful for anything that isn't covered in the Usage or Scope. Like what we have below. -->
-## Notes
-
-**NOTE: While this boilerplate project uses the Apache 2.0 license, when
-establishing a new repo using this template, please use the
-license that was approved for your project.**
-
-**NOTE: This repository has been configured with the [DCO bot](https://github.com/probot/dco).
-When you set up a new repository that uses the Apache license, you should
-use the DCO to manage contributions. The DCO bot will help enforce that.
-Please contact one of the IBM GH Org stewards.**
-
-<!-- Questions can be useful but optional, this gives you a place to say, "This is how to contact this project maintainers or create PRs -->
-If you have any questions or issues you can create a new [issue here][issues].
-
-Pull requests are very welcome! Make sure your patches are well tested.
-Ideally create a topic branch for every separate change you make. For
-example:
-
-1. Fork the repo
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Added some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
-
-## License
-
-All source files must include a Copyright and License header. The SPDX license header is 
-preferred because it can be easily scanned.
-
-If you would like to see the detailed LICENSE click [here](LICENSE).
-
-```text
-#
-# Copyright IBM Corp. {Year project was created} - {Current Year}
-# SPDX-License-Identifier: Apache-2.0
-#
 ```
-## Authors
+curl https://github.com/IBM/nvidia-cuda-driver/releases/download/latest/install.sh | bash
+```
 
-Optionally, you may include a list of authors, though this is redundant with the built-in
-GitHub list of contributors.
+## Pinning
 
-- Author: New OpenSource IBMer <new-opensource-ibmer@ibm.com>
+For automated workflows and image building, it is recommended to use a tagged release version as the
+main branch will change as new versions of the distribution are released for IBM VPC.
 
-[issues]: https://github.com/IBM/repo-template/issues/new
+```
+curl https://github.com/IBM/nvidia-cuda-driver/releases/download/v1.0.0/install.sh | bash
+```
+
+replace the version `v1.0.0` above with the release version of this repository you wish to use.
+
+## Advanced Install
+
+You can also choose options when you install. These options will let you manually override
+the NVIDIA driver version and the CUDA version. You can also choose not to install the CUDA
+toolkit.
+
+```
+USAGE: ./install.sh [-cvh]
+  -c=CUDA_VERSION             Specify CUDA toolkit version by Major.Minor version (e.g. "12.4" or "11.8").
+                              Defaults to latest supported by NVIDIA driver. Use "n" to skip CUDA toolkit install.
+
+  -v=NVIDIA_DRIVER_VERISON    Specify NVIDIA driver version by Major version (e.g. "560" or "470" ).
+                              Defaults to latest known good (IBM tested) version for the VPC distro kernel release.
+
+  -h                          Show this help message.
+```
+
+### Debian
+
+For Debian, you will need to first install `curl` to execute the installer.
+
+```
+apt update
+apt install -y curl
+```
+
+## IBM Image NVIDIA Driver and CUDA Default Versions
+
+This table shows the default and tested versions of the NVIDIA driver and corresponding CUDA
+version for the IBM images supported by this version of the installer. To find older versions
+of supported IBM images, view the repository's [releases page](./releases).
+
+| Image | Distribution | Version | Status* |  NVIDIA Driver | CUDA |
+|-|-|-|-|-|-|
+| ibm-redhat-8-8-minimal-amd64-3 | RHEL | 8.8 | deprecated | 525 | 12.0 |
+| ibm-redhat-8-10-minimal-amd64-2 | RHEL | 8.10 | available | 560 | 12.6 |
+| ibm-redhat-9-2-minimal-amd64-3 | RHEL | 9.2 | deprecated | 525 | 12.0 |
+| ibm-redhat-9-4-minimal-amd64-4 | RHEL | 9.4 | available | 560 | 12.6 |
+| ibm-rocky-linux-8-10-minimal-amd64-2 | Rocky | 8.10 | available | 555 | 12.5 |
+| ibm-rocky-linux-9-4-minimal-amd64-2 | Rocky | 9.4 | available | 555 | 12.5 |
+| ibm-ubuntu-20-04-6-minimal-amd64-6 | Ubuntu | 20.04 | available | 560 | 12.6 |
+| ibm-ubuntu-22-04-4-minimal-amd64-4 | Ubuntu | 22.04 | available | 560 | 12.6 |
+| ibm-ubuntu-24-04-6-minimal-amd64-1 | Ubuntu | 24.04 | available | 560 | 12.6 |
+| ibm-debian-11-9-minimal-amd64-2 | Debian | 11.9 | available | 560 | 12.6 |
+| ibm-debian-12-6-minimal-amd64-1 | Debian | 20.04 | available | 565 | 12.6 |
+
+
+ \* When a newer IBM VPC image version release exists for a distribution version but there are not
+    NVIDIA precompiled drivers for the updated kernel, the `deprecated` release of the VPC image
+    will be supported until the distribution version is completely obsolete.
