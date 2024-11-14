@@ -2,7 +2,6 @@
 
 [![Build Status](https://v3.travis.ibm.com/workload-eng-services/nvidia-cuda-driver.svg?token=PSs96f7r2zBFnDeNZoSk&branch=main)](https://v3.travis.ibm.com/workload-eng-services/nvidia-cuda-driver)
 
-[!WARNING]
 This project is in beta. Do not use for production. This warning will be removed when it is safe to
 use in your workflows.
 
