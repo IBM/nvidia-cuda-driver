@@ -2,8 +2,8 @@
 
 [![Build Status](https://v3.travis.ibm.com/workload-eng-services/nvidia-cuda-driver.svg?token=PSs96f7r2zBFnDeNZoSk&branch=main)](https://v3.travis.ibm.com/workload-eng-services/nvidia-cuda-driver)
 
-This project is in beta. Do not use for production. This warning will be removed when it is safe to
-use in your workflows.
+**This project is in beta. Do not use for production. This warning will be removed when it is safe to
+use in your workflows.**
 
 These scripts provide automated installation for NVIDIA&reg; drivers using NVIDIA precompiled drivers.
 The main install script `install.sh` will discover the distribution, then download and run the
