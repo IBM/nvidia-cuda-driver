@@ -90,7 +90,8 @@ apt install -y curl
 
 This table shows the default and tested versions of the NVIDIA driver and corresponding CUDA
 version for the IBM images supported by this version of the installer. To find older versions
-of supported IBM images, view the repository's [releases page](./releases).
+of supported IBM images, view the repository's 
+[releases page](https://github.com/IBM/nvidia-cuda-driver/releases).
 
 | Image | Distribution | Version | Status* |  NVIDIA Driver | CUDA |
 |-|-|-|-|-|-|
