@@ -34,19 +34,31 @@ installing drivers for.
 To get started run this command on your instance, or add it to your cloud-init.
 
 ```
-curl https://github.com/IBM/nvidia-cuda-driver/releases/download/latest/install.sh | bash
+curl -L https://github.com/IBM/nvidia-cuda-driver/releases/latest/download/install.sh | bash
 ```
 
 ## Pinning
 
 For automated workflows and image building, it is recommended to use a tagged release version as the
-main branch will change as new versions of the distribution are released for IBM VPC.
+main branch will change as new versions of the distribution are released for IBM VPC. Note the change
+in format from the `latest` path.
 
 ```
-curl https://github.com/IBM/nvidia-cuda-driver/releases/download/v1.0.0/install.sh | bash
+curl -L https://github.com/IBM/nvidia-cuda-driver/releases/download/v1.0.0/install.sh | bash
 ```
 
-replace the version `v1.0.0` above with the release version of this repository you wish to use.
+Replace the version `v1.0.0` above with the release version of this repository you wish to use.
+
+## Startup with cloud-init
+
+To run the install as part of your servers startup using cloud-init, add the following to your
+servers user data. Note for [Debian](#debian), you will need to install `curl` first.
+
+```
+#cloud-config
+runcmd:
+  - curl -L https://github.com/IBM/nvidia-cuda-driver/releases/latest/download/install.sh | bash
+```
 
 ## Advanced Install
 
