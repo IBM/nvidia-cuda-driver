@@ -23,11 +23,12 @@ images by IBM VPC are supported. The current supported distributions are:
 - Ubuntu
 - Debian
 
-See the table in [Supported IBM Images and CUDA Version](#supported-ibm-images-and-cuda-version) for
-a complete list of images supported by this version of the installers. Note, each release of this
-repository will support the latest, at time of release, image versions for VPC. It is recommended in
-your image building pipeline to tag the version matching with the VPC image version you are
-installing drivers for.
+See the table in
+[IBM Image NVIDIA Driver and CUDA Default Versions](#ibm-image-nvidia-driver-and-cuda-default-versions)
+for a complete list of images
+supported by this version of the installers. Note, each release of this repository will support the
+latest, at time of release, image versions for VPC. It is recommended in your image building
+pipeline to tag the version matching with the VPC image version you are installing drivers for.
 
 ## Quick Install
 
@@ -52,7 +53,7 @@ Replace the version `v1.0.0` above with the release version of this repository y
 ## Startup with cloud-init
 
 To run the install as part of your servers startup using cloud-init, add the following to your
-servers user data. Note for [Debian](#debian), you will need to install `curl` first.
+servers user data. Note for [Debian](#debian) you will need to install `curl` first.
 
 ```
 #cloud-config
@@ -90,15 +91,15 @@ apt install -y curl
 
 This table shows the default and tested versions of the NVIDIA driver and corresponding CUDA
 version for the IBM images supported by this version of the installer. To find older versions
-of supported IBM images, view the repository's 
+of supported IBM images, view the repository's
 [releases page](https://github.com/IBM/nvidia-cuda-driver/releases).
 
 | Image | Distribution | Version | Status* |  NVIDIA Driver | CUDA |
 |-|-|-|-|-|-|
 | ibm-redhat-8-8-minimal-amd64-3 | RHEL | 8.8 | deprecated | 525 | 12.0 |
-| ibm-redhat-8-10-minimal-amd64-2 | RHEL | 8.10 | available | 560 | 12.6 |
+| ibm-redhat-8-10-minimal-amd64-2 | RHEL | 8.10 | available | 565-dkms | 12.6 |
 | ibm-redhat-9-2-minimal-amd64-3 | RHEL | 9.2 | deprecated | 525 | 12.0 |
-| ibm-redhat-9-4-minimal-amd64-4 | RHEL | 9.4 | available | 560 | 12.6 |
+| ibm-redhat-9-4-minimal-amd64-4 | RHEL | 9.4 | available | 565-dkms | 12.6 |
 | ibm-rocky-linux-8-10-minimal-amd64-2 | Rocky | 8.10 | available | 555 | 12.5 |
 | ibm-rocky-linux-9-4-minimal-amd64-2 | Rocky | 9.4 | available | 555 | 12.5 |
 | ibm-ubuntu-20-04-6-minimal-amd64-6 | Ubuntu | 20.04 | available | 560 | 12.6 |
